@@ -13,7 +13,6 @@ router.route("/").post(async (req, res) => {
         return res.status(400).json({ message: "Food not found, Please remove the food which is not available" });
       }
       TotalOrderPrice += food.price;
-      
     }
     if (!food) {
       return res;
