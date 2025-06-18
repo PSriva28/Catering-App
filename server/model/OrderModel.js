@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-  FoodId: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "FoodModal",
-      required: true,
-    },
-  ],
+  UserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserModal",
+    required: true,
+  },
+  CartId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CartModal",
+    required: true,
+  },
   OrderStatus: {
     type: String,
     enum: ["active", "inactive", "cancelled", "completed"],

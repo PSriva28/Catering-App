@@ -1,22 +1,24 @@
 const express = require("express");
 const FoodModel = require("../model/FoodModel");
+const OrderModel = require("../model/OrderModel");
 const router = express.Router();
 
 router.route("/").post(async (req, res) => {
   try {
-    const { FoodIds } = req.body;
-    let TotalOrderPrice;
+    const { UserId, CartId } = req.body;
 
-    for (let i = 0; i < FoodIds.length; i++) {
-      const food = await FoodModel.findById(FoodIds[i]).populate();
-      if (!food) {
-        return res.status(400).json({ message: "Food not found, Please remove the food which is not available" });
-      }
-      TotalOrderPrice += food.price;
+    if (!UserId || !CartId) {
+      return res
+        .status(400)
+        .json({ message: "UserId or CartId is not available" });
     }
-    if (!food) {
-      return res;
-    }
+
+    const order = await OrderModel.create({
+      UserId: UserId,
+      CartId: CartId,
+    });
+
+    return res.status(200).json({ message: "order created", order: order });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
